@@ -9,7 +9,7 @@
  */
 module.exports = {
   siteMetadata: {
-    title: `Blog With Gatsby And Static CMS`,
+    title: `Blog About Travelings With Gatsby And Static CMS`,
     description: `It is starter boilerplate for blog on Gatsby + Static CMS`,
     author: `@gatsbyjs`,
     siteUrl: `https://gatsbystarterdefaultsource.gatsbyjs.io/`,

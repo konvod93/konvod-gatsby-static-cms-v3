@@ -4,20 +4,27 @@ import Layout from "../components/layout"
 import Seo from "../components/seo"
 import { Container, Row } from "react-bootstrap"
 import PostsList from "../components/PostsList"
+import Hero from "../components/Hero/Hero"
+import LatestBlogPost from "../components/LatestBlogPost/LatestBlogPost"
+
 
 
 
 const IndexPage = ({ data }) => {
-  // const siteTitle = data.site.siteMetadata?.title || `Title`
+  const siteTitle = data.site.siteMetadata?.title || `Title`
+  const siteDescription = data.site.siteMetadata?.description
   const posts = data.allMarkdownRemark.nodes
-
+  
   return (
     <Layout>
       <Script src="https://identity.netlify.com/v1/netlify-identity-widget.js" />
-      <Container>
-        <h1 style={{ padding: `30px`, textAlign: `center` }}>
-          Blog about travelings with Static CMS & Gatsby
-        </h1>
+      <Hero title={siteTitle} description={siteDescription} />       
+      <Container>  
+      <LatestBlogPost 
+      posttitle={data.allMarkdownRemark.nodes[0].frontmatter.title}
+      postbody={data.allMarkdownRemark.nodes[0].excerpt}
+      link={data.allMarkdownRemark.nodes[0].fields.slug}
+      />            
         <Row className="g-4" style={{marginBottom: `50px`}} >          
           <PostsList posts={posts} />
         </Row>
@@ -41,6 +48,7 @@ export const pageQuery = graphql`
     site {
       siteMetadata {
         title
+        description
       }
     }
     allMarkdownRemark(
@@ -48,7 +56,8 @@ export const pageQuery = graphql`
       sort: {frontmatter: {date: DESC}}
       ) {
     nodes {
-      id      
+      id
+      excerpt(pruneLength: 600)            
       fields {
         slug
         tags
@@ -57,7 +66,7 @@ export const pageQuery = graphql`
         category        
         title
         travel_dates
-        date(formatString: "MMM DD, YYYY ")
+        date(formatString: "MMM DD, YYYY ")        
         featured_image {
           childImageSharp {
             gatsbyImageData(width: 600, aspectRatio: 1.5, placeholder: BLURRED)
